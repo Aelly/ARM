@@ -4,9 +4,11 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+LIBS += -lGLU
 
 TARGET = Shepp
 TEMPLATE = app
@@ -24,8 +26,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    myglwidget.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    myglwidget.h
 
 FORMS    += mainwindow.ui
