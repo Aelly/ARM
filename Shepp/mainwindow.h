@@ -20,6 +20,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    int countframe=0;
+
 };
 
 #endif // MAINWINDOW_H
