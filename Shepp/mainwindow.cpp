@@ -33,57 +33,116 @@ void MainWindow::resizeGL(int width, int height)
     glLoadIdentity();
 }
 
+
+void MainWindow::createCube(float coordx, float coordy, float coordz, float color)
+{
+    //TODO set color as data color once for each face
+    glColor4f(1.0f, 0.0f, 0.0f, 0.0f);
+
+    //face
+    glBegin(GL_TRIANGLES);
+        glVertex3f(coordx, coordy, coordz);
+        glVertex3f(coordx + 1.0f, coordy, coordz);
+        glVertex3f(coordx + 1.0f, coordy + 1.0f, coordz);
+    glEnd();
+
+    glBegin(GL_TRIANGLES);
+        glVertex3f(coordx, coordy, coordz);
+        glVertex3f(coordx, coordy + 1.0f, coordz);
+        glVertex3f(coordx + 1.0f, coordy + 1.0f, coordz);
+    glEnd();
+
+
+    glColor4f(0.0f, 1.0f, 0.0f, 0.0f);
+    //gauche
+    glBegin(GL_TRIANGLES);
+        glVertex3f(coordx, coordy, coordz);
+        glVertex3f(coordx, coordy + 1.0f, coordz);
+        glVertex3f(coordx, coordy, coordz -1.0f);
+    glEnd();
+
+    glBegin(GL_TRIANGLES);
+        glVertex3f(coordx, coordy + 1.0f, coordz);
+        glVertex3f(coordx, coordy + 1.0f, coordz - 1.0f);
+        glVertex3f(coordx, coordy, coordz - 1.0f);
+    glEnd();
+
+
+    glColor4f(0.0f, 0.0f, 1.0f, 0.0f);
+    //droit
+    glBegin(GL_TRIANGLES);
+        glVertex3f(coordx + 1.0f, coordy, coordz);
+        glVertex3f(coordx + 1.0f, coordy + 1.0f, coordz);
+        glVertex3f(coordx + 1.0f, coordy, coordz -1.0f);
+    glEnd();
+
+    glBegin(GL_TRIANGLES);
+        glVertex3f(coordx + 1.0f, coordy + 1.0f, coordz);
+        glVertex3f(coordx + 1.0f, coordy + 1.0f, coordz - 1.0f);
+        glVertex3f(coordx + 1.0f, coordy, coordz - 1.0f);
+    glEnd();
+
+
+    glColor4f(1.0f, 1.0f, 0.0f, 0.0f);
+    //haut
+    glBegin(GL_TRIANGLES);
+        glVertex3f(coordx, coordy + 1.0f, coordz);
+        glVertex3f(coordx, coordy + 1.0f, coordz - 1.0f);
+        glVertex3f(coordx + 1.0f, coordy + 1.0f, coordz);
+    glEnd();
+
+    glBegin(GL_TRIANGLES);
+        glVertex3f(coordx + 1.0f, coordy + 1.0f, coordz - 1.0f);
+        glVertex3f(coordx, coordy + 1.0f, coordz - 1.0f);
+        glVertex3f(coordx + 1.0f, coordy + 1.0f, coordz);
+    glEnd();
+
+    glColor4f(1.0f, 0.0f, 1.0f, 0.0f);
+    //bas
+    glBegin(GL_TRIANGLES);
+        glVertex3f(coordx, coordy, coordz);
+        glVertex3f(coordx, coordy, coordz - 1.0f);
+        glVertex3f(coordx + 1.0f, coordy, coordz);
+    glEnd();
+
+    glBegin(GL_TRIANGLES);
+        glVertex3f(coordx + 1.0f, coordy, coordz - 1.0f);
+        glVertex3f(coordx, coordy, coordz - 1.0f);
+        glVertex3f(coordx + 1.0f, coordy, coordz);
+    glEnd();
+
+
+    glColor4f(0.0f, 1.0f, 1.0f, 0.0f);
+    //arrière
+    glBegin(GL_TRIANGLES);
+        glVertex3f(coordx, coordy, coordz - 1.0f);
+        glVertex3f(coordx + 1.0f, coordy, coordz - 1.0f);
+        glVertex3f(coordx + 1.0f, coordy + 1.0f, coordz - 1.0f);
+    glEnd();
+
+    glBegin(GL_TRIANGLES);
+        glVertex3f(coordx, coordy, coordz - 1.0f);
+        glVertex3f(coordx, coordy + 1.0f, coordz - 1.0f);
+        glVertex3f(coordx + 1.0f, coordy + 1.0f, coordz - 1.0f);
+    glEnd();
+
+}
+
 void MainWindow::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
     glTranslatef(0.0f, 0.0f, -6.0f);
-    glRotatef(countframe,0,1,0);
 
-    countframe++;
-    glBegin(GL_QUADS);
-        glVertex3f(1.0f, 1.0f, 1.0f);
-        glVertex3f(1.0f, -1.0f, 1.0f);
-        glVertex3f(-1.0f, -1.0f, 1.0f);
-        glVertex3f(-1.0f, 1.0f, 1.0f);
-    glEnd();
+    glRotatef(xRot / 16.0, 1.0, 0.0, 0.0);
+    glRotatef(yRot / 16.0, 0.0, 1.0, 0.0);
+    glRotatef(zRot / 16.0, 0.0, 0.0, 1.0);
 
-    glBegin(GL_QUADS);
-        glVertex3f(1.0f, 1.0f, 1.0f);
-        glVertex3f(1.0f, -1.0f, 1.0f);
-        glVertex3f(1.0f, -1.0f, -1.0f);
-        glVertex3f(1.0f, 1.0f, -1.0f);
-    glEnd();
+    createCube(0.0f,0.0f,0.0f,4);
 
-    glBegin(GL_QUADS);
-        glVertex3f(-1.0f, 1.0f, -1.0f);
-        glVertex3f(-1.0f, -1.0f, 1.0f);
-        glVertex3f(-1.0f, 1.0f, 1.0f);
-        glVertex3f(-1.0f, -1.0f, -1.0f);
-    glEnd();
 
-    glBegin(GL_QUADS);
-        glVertex3f(1.0f, 1.0f, -1.0f);
-        glVertex3f(1.0f, -1.0f, -1.0f);
-        glVertex3f(-1.0f, -1.0f, -1.0f);
-        glVertex3f(-1.0f, 1.0f, -1.0f);
-    glEnd();
 
-    glBegin(GL_QUADS);
-        glVertex3f(1.0f, 1.0f, 1.0f);
-        glVertex3f(1.0f, 1.0f, -1.0f);
-        glVertex3f(-1.0f, 1.0f, 1.0f);
-        glVertex3f(-1.0f, 1.0f, -1.0f);
-    glEnd();
-
-    glBegin(GL_QUADS);
-        glVertex3f(1.0f, -1.0f, 1.0f);
-        glVertex3f(1.0f, -1.0f, -1.0f);
-        glVertex3f(-1.0f, -1.0f, 1.0f);
-        glVertex3f(-1.0f, -1.0f, -1.0f);
-    glEnd();
-
-    glTranslatef(3.0f, 0.0f, -6.0f);
+    //glTranslatef(3.0f, 0.0f, -6.0f);
 
 }
 

@@ -14,13 +14,33 @@ public:
     virtual void initializeGL() = 0;
     virtual void resizeGL(int width, int height) = 0;
     virtual void paintGL() = 0;
-    virtual void keyPressEvent( QKeyEvent *keyEvent );
+
+    int xRot;
+    int yRot;
+    int zRot;
+
+
+protected:
+
+    virtual void mouseMoveEvent(QMouseEvent *event);
+    virtual void keyPressEvent( QKeyEvent *keyEvent);
+    virtual void mousePressEvent(QMouseEvent *event);
+    void qNormalizeAngle(int angle);
+
+signals:
+    void xRotationChanged(int angle);
+    void yRotationChanged(int angle);
+    void zRotationChanged(int angle);
 
 public slots:
-    virtual void timeOutSlot();
+    void setXRotation(int angle);
+    void setYRotation(int angle);
+    void setZRotation(int angle);
 
 private:
     QTimer *t_Timer;
+    QPoint lastPos;
+
 };
 
 

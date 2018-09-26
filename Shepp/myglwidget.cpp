@@ -4,16 +4,9 @@ myGLWidget::myGLWidget(int framesPerSecond, QWidget *parent, char *name)
     : QGLWidget(parent)
 {
     setWindowTitle(QString::fromUtf8(name));
-    if(framesPerSecond == 0)
-        t_Timer = NULL;
-    else
-    {
-        int seconde = 1000; // 1 seconde = 1000 ms
-        int timerInterval = seconde / framesPerSecond;
-        t_Timer = new QTimer(this);
-        connect(t_Timer, SIGNAL(timeout()), this, SLOT(timeOutSlot()));
-        t_Timer->start( timerInterval );
-    }
+    xRot = 0;
+    yRot = 0;
+    zRot = 0;
 }
 
 void myGLWidget::keyPressEvent(QKeyEvent *keyEvent)
@@ -26,7 +19,63 @@ void myGLWidget::keyPressEvent(QKeyEvent *keyEvent)
     }
 }
 
-void myGLWidget::timeOutSlot()
+void myGLWidget::mouseMoveEvent(QMouseEvent *event)
 {
-  updateGL();
+    int dx = event->x() - lastPos.x();
+    int dy = event->y() - lastPos.y();
+
+    if (event->buttons() & Qt::LeftButton) {
+       setXRotation(xRot + 8 * dy);
+       setYRotation(yRot + 8 * dx);
+    } else if (event->buttons() & Qt::RightButton) {
+       setXRotation(xRot + 8 * dy);
+       setZRotation(zRot + 8 * dx);
+    }
+   lastPos = event->pos();
 }
+
+void myGLWidget::mousePressEvent(QMouseEvent *event)
+{
+    lastPos = event->pos();
+}
+
+void myGLWidget::setXRotation(int angle)
+{
+    qNormalizeAngle(angle);
+    if (angle != xRot) {
+        xRot = angle;
+        emit xRotationChanged(angle);
+        updateGL();
+    }
+}
+
+void myGLWidget::setYRotation(int angle)
+{
+    qNormalizeAngle(angle);
+    if (angle != yRot) {
+        yRot = angle;
+        emit yRotationChanged(angle);
+        updateGL();
+    }
+}
+
+void myGLWidget::setZRotation(int angle)
+{
+    qNormalizeAngle(angle);
+    if (angle != zRot) {
+        zRot = angle;
+        emit zRotationChanged(angle);
+        updateGL();
+    }
+}
+
+void myGLWidget::qNormalizeAngle(int angle)
+{
+    while (angle < 0)
+        angle += 360 * 16;
+    while (angle > 360 * 16)
+        angle -= 360 * 16;
+}
+
+
+
