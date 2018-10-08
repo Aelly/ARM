@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "myglwidget.h"
+#include <QString>
 
 namespace Ui {
 class MainWindow;
@@ -15,8 +16,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     void initializeGL();
     void resizeGL(int width, int height);
-    void createCube(float coordx, float coordy, float coordz, float color);
+    void createCube(float coordx, float coordy, float coordz, float color, float alpha);
     void paintGL();
+    void readPGM3D(QString file);
     ~MainWindow();
 
 private:
