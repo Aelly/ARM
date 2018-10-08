@@ -1,7 +1,6 @@
 #include "data.h"
 
 Data::Data(){
-    printf("test");
 }
 
 void Data::readPGM3D(QString nameFile){
@@ -19,25 +18,30 @@ void Data::readPGM3D(QString nameFile){
                 printf("Wrong format\n");
                 return;
             }
-            text = flux.readLine(); //64 64 64 size
-            text = flux.readLine(); //255 maxval
-            float offx=-32;
-            float offy=-32;
-            float offz=-32;
-            for(float x = 0; x<64; x++){
-                for(float y = 0; y<64; y++){
-                    for(float z=0; z<64; z++){
-                        text = flux.readLine();
-                        float color = text.toFloat();
-                        /*if (color>0){
-                            createCube(offx+x,offy+y,offz+z,color,0.02);
+            text = flux.readLine(); //164 64 64 size
+            getSize(text);
 
-                        }*/
-                        printf("%f\n", color);
+            rawData = new int**[_x];
+            for (int i=0; i<_x; i++){
+                rawData[i] = new int*[_y];
+                for(int j=0; j<_y; j++){
+                    rawData[i][j] = new int[_z];
+                    for(int k=0; k<_z; k++){
+                        rawData[i][j][k] = 0;
                     }
                 }
             }
-            printf("%s\n", text.toLatin1().data());
+
+            text = flux.readLine(); //255 maxval
+
+            for(int x = 0; x<_x; x++){
+                for(int y = 0; y<_x; y++){
+                    for(int z=0; z<_z; z++){
+                        text = flux.readLine();
+                        rawData[x][y][z] = text.toInt();
+                    }
+                }
+            }
             return;
         }
         file.close();
@@ -46,4 +50,12 @@ void Data::readPGM3D(QString nameFile){
         printf("mauvais fichier\n");
     }
     return;
+}
+
+
+void Data::getSize(QString text){
+    auto parts = text.split(" ");
+    this->_x = parts.at(0).toInt();
+    this->_y = parts.at(1).toInt();
+    this->_z = parts.at(2).toInt();
 }

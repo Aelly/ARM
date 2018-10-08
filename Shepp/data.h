@@ -12,14 +12,17 @@ public:
 
     void readPGM3D(QString nameFile);
 
-    int x;
-    int y;
-    int z;
+    int _x;
+    int _y;
+    int _z;
     int lengthVertices;
     int lengthFaces;
     int*** rawData;
     float** vertices;
     int** faces;
+
+private:
+    void getSize(QString text);
 };
 
 
