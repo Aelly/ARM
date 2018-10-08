@@ -35,7 +35,7 @@ void Data::readPGM3D(QString nameFile){
             text = flux.readLine(); //255 maxval
 
             for(int x = 0; x<_x; x++){
-                for(int y = 0; y<_x; y++){
+                for(int y = 0; y<_y; y++){
                     for(int z=0; z<_z; z++){
                         text = flux.readLine();
                         rawData[x][y][z] = text.toInt();
