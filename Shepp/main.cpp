@@ -21,6 +21,7 @@ int main(int argc, char *argv[])
           return 0;
         }
 
+
     qDebug() << QT_VERSION_STR;
     Data *data = new Data();
     data->readPGM3D(filename);
