@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
     qDebug() << QT_VERSION_STR;
     Data *data = new Data();
     data->readPGM3D(filename);
+    data->createObject();
     MainWindow *w = new MainWindow(*data);
     w->show();
 

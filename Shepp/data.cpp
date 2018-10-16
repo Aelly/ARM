@@ -71,7 +71,7 @@ void Data::getSize(QString text){
     this->depth = parts.at(2).toInt();
 }
 
-int addVertice(float x, float y, float z){
+int Data::addVertice(float x, float y, float z){
     //Check size and resize if needed
     if(verticesIndex >= verticesLength){
         vertices = (float**) realloc(vertices, (2 * verticesLength) * sizeof(float*));
@@ -90,7 +90,7 @@ int addVertice(float x, float y, float z){
     return verticesIndex-1;
 }
 
-void addFace(int vertice1, int vertice2, int vertice3, int color){
+void Data::addFace(int vertice1, int vertice2, int vertice3, int color){
     //Check size and resize if needed
     if(facesIndex >= facesLength){
         faces = (int**) realloc(faces, (2 * facesLength) * sizeof(int *));
@@ -178,6 +178,47 @@ void Data::createCube(float coordx, float coordy, float coordz, float color)
         y = addVertice(coordx, coordy + 1.0f, coordz - 1.0f);
         addFace(x,y,z,color);
 }
+
+
+//Fill the 2 Array we use to create the object
+//TODO : Handle edge of world
+void Data::createObject(){
+    for(int x = 1; x<width; x++){
+        for(int y = 1; y<height; y++){
+           for(int z = 1; z<depth; z++){
+               int blockColor = rawData[x][y][z];
+               if(blockColor != 0){
+                   if(blockColor != rawData[x-1][y][z]){
+                      int i1 = addVertice((float)x, (float)y, (float)z);
+                      int i2 = addVertice((float)x, (float)y-1, (float)z);
+                      int i3 = addVertice((float)x, (float)y, (float)z-1);
+                      int i4 = addVertice((float)x, (float)y-1, (float)z-1);
+                      addFace(i1, i2, i3, blockColor);
+                      addFace(i2, i3, i4, blockColor);
+                   }
+                   if(blockColor != rawData[x][y-1][z]){
+                      int i1 = addVertice((float)x, (float)y, (float)z);
+                      int i2 = addVertice((float)x-1, (float)y, (float)z);
+                      int i3 = addVertice((float)x, (float)y, (float)z-1);
+                      int i4 = addVertice((float)x-1, (float)y, (float)z-1);
+                      addFace(i1, i2, i3, blockColor);
+                      addFace(i2, i3, i4, blockColor);
+                   }
+                   if(blockColor != rawData[x][y][z-1]){
+                      int i1 = addVertice((float)x, (float)y, (float)z);
+                      int i2 = addVertice((float)x-1, (float)y, (float)z);
+                      int i3 = addVertice((float)x, (float)y-1, (float)z);
+                      int i4 = addVertice((float)x-1, (float)y-1, (float)z);
+                      addFace(i1, i2, i3, blockColor);
+                      addFace(i2, i3, i4, blockColor);
+                   }
+                }
+             }
+          }
+      }
+}
+
+
 
 
 

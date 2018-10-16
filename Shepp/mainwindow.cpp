@@ -140,12 +140,17 @@ void MainWindow::paintGL()
 
     //glTranslatef(3.0f, 0.0f, -6.0f);
 
-    for (int face = 0; i < data.facesIndex; i++){
+
+    float offset_x = data.width /2.0;
+    float offset_y = data.height /2.0;
+    float offset_z = data.depth /2.0;
+
+    for (int i = 0; i < data.facesIndex; i++){
         glColor4f(data.faces[i][3], data.faces[i][3], data.faces[i][3], 0.5);
         glBegin(GL_TRIANGLES);
-            glVertex3f(data.vertices[data.faces[i][0]]);
-            glVertex3f(data.vertices[data.faces[i][1]]);
-            glVertex3f(data.vertices[data.faces[i][2]]);
+            glVertex3f(data.vertices[data.faces[i][0]][0] - offset_x, data.vertices[data.faces[i][0]][1] - offset_y, data.vertices[data.faces[i][0]][2] - offset_z);
+            glVertex3f(data.vertices[data.faces[i][1]][0] - offset_x, data.vertices[data.faces[i][1]][1] - offset_y, data.vertices[data.faces[i][1]][2] - offset_z);
+            glVertex3f(data.vertices[data.faces[i][2]][0] - offset_x, data.vertices[data.faces[i][2]][1] - offset_y, data.vertices[data.faces[i][2]][2] - offset_z);
         glEnd();
     }
 
