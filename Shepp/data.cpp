@@ -109,6 +109,76 @@ void addFace(int vertice1, int vertice2, int vertice3, int color){
     facesIndex++;
 }
 
+void Data::createCube(float coordx, float coordy, float coordz, float color)
+{
+    int x = 0;
+    int y = 0;
+    int z = 0;
+
+    //face
+
+        x = addVertice(coordx, coordy, coordz);
+        y = addVertice(coordx + 1.0f, coordy, coordz);
+        z = addVertice(coordx + 1.0f, coordy + 1.0f, coordz);
+        addFace(x,y,z,color);
+
+        y = addVertice(coordx, coordy + 1.0f, coordz);
+        addFace(x,y,z,color);
+
+
+    //gauche
+
+        x = addVertice(coordx, coordy, coordz);
+        y = addVertice(coordx, coordy + 1.0f, coordz);
+        z = addVertice(coordx, coordy, coordz -1.0f);
+        addFace(x,y,z,color);
+
+        x = addVertice(coordx, coordy + 1.0f, coordz - 1.0f);
+        addFace(x,y,z,color);
+
+
+    //droit
+
+        x = addVertice(coordx + 1.0f, coordy, coordz);
+        y = addVertice(coordx + 1.0f, coordy + 1.0f, coordz);
+        z = addVertice(coordx + 1.0f, coordy, coordz -1.0f);
+        addFace(x,y,z,color);
+
+        x = addVertice(coordx + 1.0f, coordy + 1.0f, coordz - 1.0f);
+        addFace(x,y,z,color);
+
+
+    //haut
+
+        x = addVertice(coordx, coordy + 1.0f, coordz);
+        y = addVertice(coordx, coordy + 1.0f, coordz - 1.0f);
+        z = addVertice(coordx + 1.0f, coordy + 1.0f, coordz);
+        addFace(x,y,z,color);
+
+        x = addVertice(coordx + 1.0f, coordy + 1.0f, coordz - 1.0f);
+        addFace(x,y,z,color);
+
+    //bas
+
+        x = addVertice(coordx, coordy, coordz);
+        y = addVertice(coordx, coordy, coordz - 1.0f);
+        z = addVertice(coordx + 1.0f, coordy, coordz);
+        addFace(x,y,z,color);
+
+        x = addVertice(coordx + 1.0f, coordy, coordz - 1.0f);
+        addFace(x,y,z,color);
+
+    //arrière
+
+        x = addVertice(coordx, coordy, coordz - 1.0f);
+        y = addVertice(coordx + 1.0f, coordy, coordz - 1.0f);
+        z = addVertice(coordx + 1.0f, coordy + 1.0f, coordz - 1.0f);
+        addFace(x,y,z,color);
+
+        y = addVertice(coordx, coordy + 1.0f, coordz - 1.0f);
+        addFace(x,y,z,color);
+}
+
 
 
 
