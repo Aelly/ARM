@@ -71,4 +71,44 @@ void Data::getSize(QString text){
     this->depth = parts.at(2).toInt();
 }
 
+int addVertice(float x, float y, float z){
+    //Check size and resize if needed
+    if(verticesIndex >= verticesLength){
+        vertices = (float**) realloc(vertices, (2 * verticesLength) * sizeof(float*));
+        for(int i=0; i<verticesLength; i++){
+            vertices[verticesLength + i] = (float*) malloc(3*sizeof(float));
+        }
+        verticesLength *= 2;
+    }
+
+    //Add vertice
+    vertices[verticesIndex][0] = x;
+    vertices[verticesIndex][1] = y;
+    vertices[verticesIndex][2] = z;
+    verticesIndex++;
+
+    return verticesIndex-1;
+}
+
+void addFace(int vertice1, int vertice2, int vertice3, int color){
+    //Check size and resize if needed
+    if(facesIndex >= facesLength){
+        faces = (int**) realloc(faces, (2 * facesLength) * sizeof(int *));
+        for(int i=0; i<facesLength; i++){
+            faces[facesLength + i] = (int*) malloc(4*sizeof(int));
+        }
+        facesLength *= 2;
+    }
+
+    //Add Face
+    faces[facesIndex][0] = vertice1;
+    faces[facesIndex][1] = vertice2;
+    faces[facesIndex][2] = vertice3;
+    faces[facesIndex][3] = color;
+
+    facesIndex++;
+}
+
+
+
 
