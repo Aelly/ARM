@@ -128,6 +128,32 @@ void MainWindow::createCube(float coordx, float coordy, float coordz, float colo
 
 }
 
+void MainWindow::updateDistance(){
+    //Get the modelViewMatrix ("camera position")
+    GLfloat matrix[16];
+    glGetFloatv( GL_MODELVIEW_MATRIX, matrix );
+
+    float DOF[3];
+    DOF[0] = matrix[  2 ]; // x
+    DOF[1] = matrix[  6 ]; // y
+    DOF[2] = matrix[ 10 ]; // z
+
+    //Compute and update the distance for each face
+    //We simplify the position of the face as the position of the first vertice composing this face
+    for(int i=0; i<data.facesIndex; i++){
+        int fX = data.vertices[data.faces[i][0]][0];
+        int fY = data.vertices[data.faces[i][0]][1];
+        int fZ = data.vertices[data.faces[i][0]][2];
+        float distance = std::sqrt((DOF[0]-fX)*(DOF[0]-fX) + (DOF[1]-fY)*(DOF[1]-fY) + (DOF[2]-fZ)*(DOF[2]-fZ));
+        data.faces[i][4] = distance;
+        //printf("%f\n",distance);
+    }
+}
+
+bool cmp( int* a, int* b){
+    return a[4] < b[4];
+}
+
 void MainWindow::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -138,7 +164,13 @@ void MainWindow::paintGL()
     glRotatef(yRot / 16.0, 0.0, 1.0, 0.0);
     glRotatef(zRot / 16.0, 0.0, 0.0, 1.0);
 
+    glScaled(zoomScale, zoomScale, zoomScale);
+
     //glTranslatef(3.0f, 0.0f, -6.0f);
+
+    //Update the distance and sort by distance before drawing
+    updateDistance();
+    std::sort(data.faces, data.faces + data.facesIndex, cmp);
 
 
     float offset_x = data.width /2.0;
@@ -148,7 +180,7 @@ void MainWindow::paintGL()
 
 
     for (int i = 0; i < data.facesIndex; i++){
-        glColor4f(data.faces[i][3], data.faces[i][3], data.faces[i][3],0.6);
+        glColor4f(data.faces[i][3], data.faces[i][3], data.faces[i][3],0.25);
         glBegin(GL_TRIANGLES);
             glVertex3f(data.vertices[data.faces[i][0]][0] - offset_x, data.vertices[data.faces[i][0]][1] - offset_y, data.vertices[data.faces[i][0]][2] - offset_z);
             glVertex3f(data.vertices[data.faces[i][1]][0] - offset_x, data.vertices[data.faces[i][1]][1] - offset_y, data.vertices[data.faces[i][1]][2] - offset_z);

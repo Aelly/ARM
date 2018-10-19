@@ -25,6 +25,7 @@ public:
      Data data;
 
 private:
+     void updateDistance();
     Ui::MainWindow *ui;
 };
 

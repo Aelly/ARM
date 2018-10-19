@@ -77,5 +77,22 @@ void myGLWidget::qNormalizeAngle(int angle)
         angle -= 360 * 16;
 }
 
+//found at http://goldsequence.blogspot.com/2016/04/how-to-zoom-in-in-opengl-qt.html
+void myGLWidget::wheelEvent(QWheelEvent *event)
+{
+ QPoint numDegrees = event->angleDelta();
+ if (numDegrees.y() < 0){
+    //Zoom
+    zoomScale = zoomScale/1.1;
+ }
+ if (numDegrees.y() > 0){
+     //Dezoom
+    zoomScale = zoomScale*1.1;
+
+ }
+ updateGL(); // call paintGL()
+ printf("%d", zoomScale);
+}
+
 
 

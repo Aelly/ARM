@@ -9,7 +9,7 @@ Data::Data(){
 
   faces = (int**) malloc(100*sizeof(int*));
   for(int i = 0; i<100 ; i++)
-      faces[i] = (int*) malloc(4*sizeof(int));
+      faces[i] = (int*) malloc(5*sizeof(int));
   facesIndex = 0;
   facesLength = 100;
 }
@@ -91,7 +91,7 @@ int Data::addVertice(float x, float y, float z){
     return verticesIndex-1;
 }
 
-void Data::addFace(int vertice1, int vertice2, int vertice3, int color){
+void Data::addFace(int vertice1, int vertice2, int vertice3, int color, int distance){
     //Check size and resize if needed
     if(facesIndex >= facesLength){
         faces = (int**) realloc(faces, (2 * facesLength) * sizeof(int *));
@@ -106,6 +106,7 @@ void Data::addFace(int vertice1, int vertice2, int vertice3, int color){
     faces[facesIndex][1] = vertice2;
     faces[facesIndex][2] = vertice3;
     faces[facesIndex][3] = color;
+    faces[facesIndex][4] = distance;
 
     facesIndex++;
 }
@@ -121,10 +122,10 @@ void Data::createCube(float coordx, float coordy, float coordz, float color)
         x = addVertice(coordx, coordy, coordz);
         y = addVertice(coordx + 1.0f, coordy, coordz);
         z = addVertice(coordx + 1.0f, coordy + 1.0f, coordz);
-        addFace(x,y,z,color);
+        addFace(x,y,z,color,0);
 
         y = addVertice(coordx, coordy + 1.0f, coordz);
-        addFace(x,y,z,color);
+        addFace(x,y,z,color,0);
 
 
     //gauche
@@ -132,10 +133,10 @@ void Data::createCube(float coordx, float coordy, float coordz, float color)
         x = addVertice(coordx, coordy, coordz);
         y = addVertice(coordx, coordy + 1.0f, coordz);
         z = addVertice(coordx, coordy, coordz -1.0f);
-        addFace(x,y,z,color);
+        addFace(x,y,z,color,0);
 
         x = addVertice(coordx, coordy + 1.0f, coordz - 1.0f);
-        addFace(x,y,z,color);
+        addFace(x,y,z,color,0);
 
 
     //droit
@@ -143,10 +144,10 @@ void Data::createCube(float coordx, float coordy, float coordz, float color)
         x = addVertice(coordx + 1.0f, coordy, coordz);
         y = addVertice(coordx + 1.0f, coordy + 1.0f, coordz);
         z = addVertice(coordx + 1.0f, coordy, coordz -1.0f);
-        addFace(x,y,z,color);
+        addFace(x,y,z,color,0);
 
         x = addVertice(coordx + 1.0f, coordy + 1.0f, coordz - 1.0f);
-        addFace(x,y,z,color);
+        addFace(x,y,z,color,0);
 
 
     //haut
@@ -154,30 +155,30 @@ void Data::createCube(float coordx, float coordy, float coordz, float color)
         x = addVertice(coordx, coordy + 1.0f, coordz);
         y = addVertice(coordx, coordy + 1.0f, coordz - 1.0f);
         z = addVertice(coordx + 1.0f, coordy + 1.0f, coordz);
-        addFace(x,y,z,color);
+        addFace(x,y,z,color,0);
 
         x = addVertice(coordx + 1.0f, coordy + 1.0f, coordz - 1.0f);
-        addFace(x,y,z,color);
+        addFace(x,y,z,color,0);
 
     //bas
 
         x = addVertice(coordx, coordy, coordz);
         y = addVertice(coordx, coordy, coordz - 1.0f);
         z = addVertice(coordx + 1.0f, coordy, coordz);
-        addFace(x,y,z,color);
+        addFace(x,y,z,color,0);
 
         x = addVertice(coordx + 1.0f, coordy, coordz - 1.0f);
-        addFace(x,y,z,color);
+        addFace(x,y,z,color,0);
 
     //arrière
 
         x = addVertice(coordx, coordy, coordz - 1.0f);
         y = addVertice(coordx + 1.0f, coordy, coordz - 1.0f);
         z = addVertice(coordx + 1.0f, coordy + 1.0f, coordz - 1.0f);
-        addFace(x,y,z,color);
+        addFace(x,y,z,color,0);
 
         y = addVertice(coordx, coordy + 1.0f, coordz - 1.0f);
-        addFace(x,y,z,color);
+        addFace(x,y,z,color,0);
 }
 
 
@@ -191,35 +192,35 @@ void Data::createObject(){
                    //if(blockColor != 0){
                    if(blockColor != rawData[x-1][y][z]){
                       if(blockColor > rawData[x-1][y][z] && rawData[x-1][y][z] != 0) blockColor = rawData[x-1][y][z];
-                      if(blockColor == 0) blockColor = rawData[x-1][y][z];
+                      if(rawData[x][y][z] == 0) blockColor = rawData[x-1][y][z];
                       int i1 = addVertice((float)x, (float)y, (float)z);
                       int i2 = addVertice((float)x, (float)y+1, (float)z);
                       int i3 = addVertice((float)x, (float)y, (float)z+1);
                       int i4 = addVertice((float)x, (float)y+1, (float)z+1);
-                      addFace(i1, i2, i3, blockColor);
-                      addFace(i2, i3, i4, blockColor);
+                      addFace(i1, i2, i3, blockColor,0);
+                      addFace(i2, i3, i4, blockColor,0);
                    }
                    if(blockColor != rawData[x][y-1][z]){
                       if(blockColor > rawData[x][y-1][z] && rawData[x][y-1][z] != 0) blockColor = rawData[x][y-1][z];
-                      if(blockColor == 0) blockColor = rawData[x][y-1][z];
+                      if(rawData[x][y][z] == 0) blockColor = rawData[x][y-1][z];
 
                       int i1 = addVertice((float)x, (float)y, (float)z);
                       int i2 = addVertice((float)x+1, (float)y, (float)z);
                       int i3 = addVertice((float)x, (float)y, (float)z+1);
                       int i4 = addVertice((float)x+1, (float)y, (float)z+1);
-                      addFace(i1, i2, i3, blockColor);
-                      addFace(i2, i3, i4, blockColor);
+                      addFace(i1, i2, i3, blockColor,0);
+                      addFace(i2, i3, i4, blockColor,0);
                    }
                    if(blockColor != rawData[x][y][z-1]){
                       if(blockColor > rawData[x][y][z-1] && rawData[x][y][z-1] != 0) blockColor = rawData[x][y][z-1];
-                      if(blockColor == 0) blockColor = rawData[x][y][z-1];
+                      if(rawData[x][y][z] == 0) blockColor = rawData[x][y][z-1];
 
                       int i1 = addVertice((float)x, (float)y, (float)z);
                       int i2 = addVertice((float)x+1, (float)y, (float)z);
                       int i3 = addVertice((float)x, (float)y+1, (float)z);
                       int i4 = addVertice((float)x+1, (float)y+1, (float)z);
-                      addFace(i1, i2, i3, blockColor);
-                      addFace(i2, i3, i4, blockColor);
+                      addFace(i1, i2, i3, blockColor,0);
+                      addFace(i2, i3, i4, blockColor,0);
                    }
                  //}
               }

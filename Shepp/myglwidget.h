@@ -18,6 +18,7 @@ public:
     int xRot;
     int yRot;
     int zRot;
+    float zoomScale =1;
 
 
 protected:
@@ -25,12 +26,14 @@ protected:
     virtual void mouseMoveEvent(QMouseEvent *event);
     virtual void keyPressEvent( QKeyEvent *keyEvent);
     virtual void mousePressEvent(QMouseEvent *event);
+    void wheelEvent(QWheelEvent *event);
     void qNormalizeAngle(int angle);
 
 signals:
     void xRotationChanged(int angle);
     void yRotationChanged(int angle);
     void zRotationChanged(int angle);
+
 
 public slots:
     void setXRotation(int angle);
