@@ -23,11 +23,11 @@ void Data::readPGM3D(QString nameFile){
         if(!flux.atEnd()){
             text = flux.readLine();
             if(text.compare(text,"PGM3D\n")){
-                printf("ok\n");
+                printf("File successfully opened\n");
             }
             else{
-                printf("Wrong format\n");
-                return;
+                printf("Wrong file format");
+                return ;
             }
             text = flux.readLine(); //164 64 64 size
             getSize(text);
@@ -58,7 +58,8 @@ void Data::readPGM3D(QString nameFile){
         file.close();
     }
     else{
-        printf("mauvais fichier\n");
+        printf("File can't be opened");
+        return;
     }
     return;
 }
@@ -187,10 +188,10 @@ void Data::createObject(){
         for(int y = 1; y<height; y++){
            for(int z = 1; z<depth; z++){
                int blockColor = rawData[x][y][z];
-                   if(blockColor != 0){
+                   //if(blockColor != 0){
                    if(blockColor != rawData[x-1][y][z]){
-                      if(blockColor > rawData[x-1][y][z]) blockColor = rawData[x-1][y][z];
-
+                      if(blockColor > rawData[x-1][y][z] && rawData[x-1][y][z] != 0) blockColor = rawData[x-1][y][z];
+                      if(blockColor == 0) blockColor = rawData[x-1][y][z];
                       int i1 = addVertice((float)x, (float)y, (float)z);
                       int i2 = addVertice((float)x, (float)y+1, (float)z);
                       int i3 = addVertice((float)x, (float)y, (float)z+1);
@@ -199,7 +200,8 @@ void Data::createObject(){
                       addFace(i2, i3, i4, blockColor);
                    }
                    if(blockColor != rawData[x][y-1][z]){
-                      if(blockColor > rawData[x][y-1][z]) blockColor = rawData[x][y-1][z];
+                      if(blockColor > rawData[x][y-1][z] && rawData[x][y-1][z] != 0) blockColor = rawData[x][y-1][z];
+                      if(blockColor == 0) blockColor = rawData[x][y-1][z];
 
                       int i1 = addVertice((float)x, (float)y, (float)z);
                       int i2 = addVertice((float)x+1, (float)y, (float)z);
@@ -209,7 +211,8 @@ void Data::createObject(){
                       addFace(i2, i3, i4, blockColor);
                    }
                    if(blockColor != rawData[x][y][z-1]){
-                      if(blockColor > rawData[x][y][z-1]) blockColor = rawData[x][y][z-1];
+                      if(blockColor > rawData[x][y][z-1] && rawData[x][y][z-1] != 0) blockColor = rawData[x][y][z-1];
+                      if(blockColor == 0) blockColor = rawData[x][y][z-1];
 
                       int i1 = addVertice((float)x, (float)y, (float)z);
                       int i2 = addVertice((float)x+1, (float)y, (float)z);
@@ -218,7 +221,7 @@ void Data::createObject(){
                       addFace(i1, i2, i3, blockColor);
                       addFace(i2, i3, i4, blockColor);
                    }
-                     }
+                 //}
               }
           }
       }
