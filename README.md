@@ -30,9 +30,9 @@ This could easily be added to our method, since we already identify such bloc bu
 add the idea explained above to this case.
 
 ## HOW TO USE:
--Start the project using QT
--Select the PGM3D file in the dialog box
--Rotate using the left click and zoom using the wheel
+- Start the project using QT
+- Select the PGM3D file in the dialog box
+- Rotate using the left click and zoom using the wheel
 
 ![result1](https://github.com/Aelly/ARM/blob/master/ARM1.png)
 ![result2](https://github.com/Aelly/ARM/blob/master/ARM2.png)
