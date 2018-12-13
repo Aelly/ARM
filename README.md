@@ -1,6 +1,6 @@
 # ARM
 
-SUMMARY:
+## SUMMARY:
 The goal of this project was to implement a visualizer for PGM3D file. The test file was a 64*64*64 representation of the shepplogan phantom.
 In order to do so we used QT for the interface with OpenGL to handle the 3D reconstruction.
 
@@ -23,13 +23,16 @@ When we implemented the first method we added transparancy to be able to see wha
 around the object, we always display the faces in the same order regardless of the orientation of the object, which cause the transparancy to ignore important faces.
 To fix it we added a Z-sorting function to sort our faces array from the further to the closest at each frames which resolved the previous issue.
 
-IMPROVEMENT:
+## IMPROVEMENT:
 To further improve our visualizer we thought of some improvement. Right now we display each faces separately, but we could create groups of faces which are next
 to each other to reduce the number of faces we display. To do so, we should identify two bloc of the same color and merge them in a single and bigger block.
 This could easily be added to our method, since we already identify such bloc but we ignore them since their shared face do not interest us. So we only need to
 add the idea explained above to this case.
 
-HOW TO USE:
+## HOW TO USE:
 -Start the project using QT
 -Select the PGM3D file in the dialog box
 -Rotate using the left click and zoom using the wheel
+
+![result1](https://github.com/Aelly/ARM/blob/master/ARM1.png)
+![result2](https://github.com/Aelly/ARM/blob/master/ARM2.png)
